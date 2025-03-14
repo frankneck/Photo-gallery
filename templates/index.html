@@ -6,6 +6,7 @@
         <meta name = "author" content = "Grigory Levin"/>
         <link rel="stylesheet" href="/static/css/style.css"/>
         <link rel="shortcut icon" href="/static/images/icon.png" type="image/x-icon">
+        <script src="../js/main.js"></script>
         <title>Gallery</title>
     </head>
     <body>
@@ -33,139 +34,142 @@
             </ul>
         </nav>
         <main>
-            <section class="main-content">
-                <section class="column">
-                    <figure>
-                        <img src="../static/images/cyberpunk.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                    <figure>
-                        <img src="../static/images/Elon Mask.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                    <figure>
-                        <img src="../static/images/Mehiko.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                </section>
-                <section class="column">
-                    <figure>
-                        <img src="../static/images/SamsungS3.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                    <figure>
-                        <img src="../static/images/SamsungS4.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                    <figure>
-                        <img src="../static/images/icon.png" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                </section>
-                <section class="column">
-                    <figure>
-                        <img src="../static/images/assessment-table.png" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                    <figure>
-                        <img src="../static/images/Elon Mask.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                    <figure>
-                        <img src="../static/images/Mehiko.jpg" width="600"/>
-                        <figcaption>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 1</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 2</a>
-                            </button>
-                            <button class="button-tag" id="tag" name="tag">
-                                <a href="#">tag 3</a>
-                            </button>
-                        </figcaption>
-                    </figure>
-                </section>
+            <section class="main-content" name="mainContent">
+                <div class="columns" name="columns">
+                    <section class="column" name="column1" id="column1">
+                        <figure>
+                            <img src="../static/images/cyberpunk.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../static/images/Elon Mask.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../static/images/Mehiko.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                    </section>
+                    <section class="column" name="column2" id="column2">
+                        <figure>
+                            <img src="../static/images/SamsungS3.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../static/images/SamsungS4.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../static/images/icon.png" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                    </section>
+                    <section class="column" name="column3" id="column3">
+                        <figure>
+                            <img src="../static/images/assessment-table.png" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../static/images/Elon Mask.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../static/images/Mehiko.jpg" width="600"/>
+                            <figcaption>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 1</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 2</a>
+                                </button>
+                                <button class="button-tag" id="tag" name="tag">
+                                    <a href="#">tag 3</a>
+                                </button>
+                            </figcaption>
+                        </figure>
+                    </section>
+                </div>
+                <button name="AddElement" id="AddButton" onclick="AddElement()">+ Добавить новый элемент</button>
             </section>
         </main>
         <footer>
