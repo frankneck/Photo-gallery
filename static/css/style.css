@@ -1,6 +1,8 @@
 body {
     margin: 0px;
     font-family: Arial;
+    display: flex;
+    flex-flow: wrap column;
 }
 
 header, 
@@ -41,20 +43,31 @@ nav ul li {
     border-radius: 6px;
 }
 
-.main-content {
+main {
     display: flex;
-    flex-direction: column;
+    flex-flow: nowrap column;
     align-items: center;
 }
 
 .columns {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+}
+
+figure img {
+    width: 500px;
+    height: auto;
 }
 
 .column figure img {
     border: 2px solid black;
 } 
+
+form fieldset p[name="addingDescription"] {
+    display: flex;
+    align-items: center;
+}
 
 footer {
     height: 100px;
