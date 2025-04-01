@@ -29,7 +29,7 @@ function addNewTag(newTag) {
         var li = document.createElement("li");
         li.innerHTML = `
             <button class="button-tag" id="tag${tags.length}" name="tag">
-                <a href="#">${newTag}</a>
+                <a href="#" onclick = filterPictureByTag('${newTag}')>${newTag}</a>
             </button>`;
         ul.appendChild(li);
     }
@@ -71,7 +71,7 @@ function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 
             if (tag !== "None") {                                               // если теги разные и нер равны None
                     tagButtons += `
                         <button class="button-tag" id="tag1" name="tag">
-                            <a href="#">${tag}</a>
+                            <a href="#" onclick = filterPictureByTag('${tag}')>${tag}</a>
                         </button>`
                 }
         });
@@ -81,7 +81,7 @@ function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 
             if (tag !== "None") {                                               // если теги разные и нер равны None
                     tagButtons += `
                         <button class="button-tag" id="tag1" name="tag">
-                            <a href="#">${tag}</a>
+                            <a href="#" onclick = filterPictureByTag('${tag}')>${tag}</a>
                         </button>`
                 }
             });
@@ -91,7 +91,7 @@ function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 
             if (tag !== "None") {                                               // если теги разные и нер равны None
                     tagButtons += `
                         <button class="button-tag" id="tag1" name="tag">
-                            <a href="#">${tag}</a>
+                            <a href="#" onclick = filterPictureByTag('${tag}')=>${tag}</a>
                         </button>`
                 }
             });
@@ -101,7 +101,7 @@ function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 
         if (tag !== "None") {                                               // если теги разные и нер равны None
                 tagButtons += `
                     <button class="button-tag" id="tag1" name="tag">
-                        <a href="#">${tag}</a>
+                        <a href="#" onclick = filterPictureByTag('${tag}')>${tag}</a>
                     </button>`
             }
         });
@@ -148,21 +148,20 @@ function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 
 }
 
 // фильтраиця тестовая версия
-function filterPictureByTag() {
-    var pictures = Array.from(document.getElementsByTagName("figure"));
-    var tempTag = "tag1";
-
-    var filteredPictures = pictures.filter(function (picture) {
-        
-        var btnTags = Array.from(picture.getElementsByTagName("button"));
-        
-        return btnTags.some(function (btnTag) {
-            return (btnTag.innerText.trim() === tempTag);
-        });
+function filterPictureByTag(tempTag) {
+    const pictures = Array.from(document.getElementsByTagName("figure"));
+    
+    pictures.forEach((picture) => {
+        const btnTags = Array.from(picture.getElementsByTagName("button"));
+        const hasTag = btnTags.some(btnTag => btnTag.innerText.trim() === tempTag);
+        picture.style.display = hasTag ? "block" : "none";
     });
+}
 
-    filteredPictures.forEach((picture) => {
-        
+function showAllPictures() {
+    const pictures = Array.from(document.getElementsByTagName("figure"));
+    pictures.forEach((picture) => {
+        picture.style.display = "block";
     });
 }
 
