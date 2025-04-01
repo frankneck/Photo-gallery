@@ -61,12 +61,51 @@ figure img {
 }
 
 .column figure img {
-    border: 2px solid black;
-} 
+    border: 0px solid black;
+}
+
+#AddButton0 {
+  margin: 50px;  
+}
+
+form {
+    width: 520px;
+    height: 605px;
+    position: fixed;
+    padding: 10px;
+    top: 15%;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+
+form fieldset {
+    height: 580px;
+}
 
 form fieldset p[name="addingDescription"] {
     display: flex;
     align-items: center;
+}
+
+legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+legend p {
+    margin: 0px 0px 0px 175px;
+}
+
+fieldset {
+    border: 0px solid #ffffff;
+}
+
+fieldset #closedButton {
+    background-color: red;
 }
 
 footer {

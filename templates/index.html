@@ -16,9 +16,6 @@
             <h2>Find tag:</h2>
             <ul>
                 <li name="navTagName">
-                    <button class="button-tag" id="tag0" name="tag">
-                        <a href="#">tag 1</a>
-                    </button>
                 </li>
             </ul>
         </nav>
@@ -33,48 +30,53 @@
             </div>
             <form name="Adding form" id="Adding form" style="display: none;">
                 <fieldset>
-                    <legend>Add a new image             
-                        <button type="button" 
+                    <legend>
+                        <p>Add a new image</p>
+                        <button type="button" id="closedButton" 
                             style="float: right; margin-left: 10px;"
                             onclick="closeForm()">×
-                        </button>
-                    </legend>
-                    <P name="addingFile">
+                        </button>  
+                    </legend> 
+                    <p name="addingFile">
                         <label>Attach a photo</label>
                         <input type="file" accept="image/*">
-                    </P>
-                    <P name="addingDescription">
+                    </p>
+                    <p name="addingDescription">
                         <label>Add a description</label>
                         <textarea style="resize: none;" rows="3"></textarea>
-                    </P>
-                    <P name="addingTag">
+                    </p>
+                    <p name="addingTag">
                         <label>Add a tag</label>
-                        <select name="selectTag">
+                        <select name="selectTag" id="select1">
                             <!-- if tag doesn't exist we won't display field -->
                             <option>None</option> 
                         </select>
-                        <select name="selectTag">
+                        <select name="selectTag" id="select2">
                             <option>None</option>
                         </select>
-                        <select name="selectTag">
+                        <select name="selectTag" id="select3">
                             <option>None</option>
                         </select>
                         <p>
                             <label>Add a new tag</label>
-                            <input type="text" name="addTagName" id="addTagName" maxlength="64"/>
+                            <input type="text" name="addTagName" id="addTagName" maxlength="20"/>
                             <button type="button" name="addTagButton" id="addTagButton" onclick="addNewTag(this.form.addTagName.value);">+</button>
                         </p>
-                    </P>
+                    </p>
                     <p>
                         <!-- Кнопка добавления -->
-                        <button type="button" name="AddElement" id="AddButton" onclick="addElement(document.forms['Adding form'].querySelector('input[type=file]')); closeForm();">   
+                        <button type="button" name="AddElement" id="AddButton1" 
+                        onclick="addElement(document.forms['Adding form'].querySelector('input[type=file]'), 
+                            document.forms['Adding form'].querySelector('textarea').valeu,
+                            document.forms['Adding form'].querySelector('select[id=select1]').value, 
+                            document.forms['Adding form'].querySelector('select[id=select2]').value,
+                            document.forms['Adding form'].querySelector('select[id=select3]').value);">   
                             + Добавить новый элемент
-                        </button> 
+                        </button>
                     </P>
                 </fieldset>
-                
             </form>
-            <button type="button" name="AddElement" id="AddButton" onclick="openForm()">+ Добавить новый элемент</button>
+            <button type="button" name="AddElement" id="AddButton0" onclick="openForm()">+ Добавить новый элемент</button>
         </main>
         <footer>
             <h2>About me</h2>
