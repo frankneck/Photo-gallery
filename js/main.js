@@ -37,78 +37,38 @@ function addNewTag(newTag) {
 
 
 function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 = "None") {
-    var cols = document.getElementsByClassName("column");                                       // получаем все столбцы
+    var cols = document.querySelectorAll(".columns"); // Получаем все столбцы
     var newItem = document.createElement("figure");
     let tagButtons = "";
 
     // Получаем файл из input
-    var image = imageInput.files[0];                                                            // берем первый файл
+    var image = imageInput.files[0]; // Берем первый файл
                 
-    if (!image) {                                                                               // Проверяем, что файл существует
+    if (!image) {
         alert("Please select a file.");
         return;
     }
     
-    if (tag1 === "None" && tag2 === "None" && tag3 === "None") {
+    // Фильтруем теги, оставляя только уникальные и не "None"
+    let uniqueTags = [...new Set([tag1, tag2, tag3].filter(tag => tag !== "None"))];
+
+    if (uniqueTags.length === 0) {
         alert("Choose at least one tag!");
         return;
     }
 
+    // Создаем кнопки для тегов
+    uniqueTags.forEach(tag => {
+        tagButtons += `
+            <button class="button-tag" name="tag">
+                <a href="#" onclick="filterPictureByTag('${tag}')">${tag}</a>
+            </button>`;
+    });
+
     var reader = new FileReader();
     
-    if (tag1 === tag2 && tag2 === tag3) {
-        [tag1].forEach((tag) => {
-            if (tag !== "None") {                                               // если теги разные и нер равны None
-                    tagButtons += `
-                        <button class="button-tag" id="tag1" name="tag">
-                            <a href="#">${tag}</a>
-                        </button>`
-                }
-            });                                                                     // если теги одинаковые, добавляем просто первый
-    }
-    else if (tag1 === tag2 && tag2 !== tag3) {
-        [tag1, tag3].forEach((tag) => {
-            if (tag !== "None") {                                               // если теги разные и нер равны None
-                    tagButtons += `
-                        <button class="button-tag" id="tag1" name="tag">
-                            <a href="#" onclick = filterPictureByTag('${tag}')>${tag}</a>
-                        </button>`
-                }
-        });
-    }
-    else if (tag1 === tag3 && tag1 !== tag2) {
-        [tag1, tag2].forEach((tag) => {
-            if (tag !== "None") {                                               // если теги разные и нер равны None
-                    tagButtons += `
-                        <button class="button-tag" id="tag1" name="tag">
-                            <a href="#" onclick = filterPictureByTag('${tag}')>${tag}</a>
-                        </button>`
-                }
-            });
-    }
-    else if (tag2 === tag3 && tag2 !== tag1) {
-        [tag1, tag3].forEach((tag) => {
-            if (tag !== "None") {                                               // если теги разные и нер равны None
-                    tagButtons += `
-                        <button class="button-tag" id="tag1" name="tag">
-                            <a href="#" onclick = filterPictureByTag('${tag}')=>${tag}</a>
-                        </button>`
-                }
-            });
-    }
-    else if (tag1 !== tag2 && tag2 !== tag3 && tag1 !== tag3) {
-        [tag1, tag2, tag3].forEach((tag) => {
-        if (tag !== "None") {                                               // если теги разные и нер равны None
-                tagButtons += `
-                    <button class="button-tag" id="tag1" name="tag">
-                        <a href="#" onclick = filterPictureByTag('${tag}')>${tag}</a>
-                    </button>`
-            }
-        });
-    }
-
     reader.onload = function(e) {
-        const imageURL = e.target.result;                                   // получаем результат чтения файла
+        const imageURL = e.target.result; // Получаем результат чтения файла
         
         if (uploadedImages.has(imageURL)) {
             alert("This image has already been uploaded!");
@@ -118,34 +78,25 @@ function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 
         uploadedImages.add(imageURL);
 
         newItem.innerHTML = `
-            <img src="${imageURL}" alt="Uploaded Image"/>
+            <a class="image"><img src="${imageURL}" alt="Uploaded Image"/></a>
             <figcaption>
-                <p name="description" style="display: none;">
-                    ${description}
-                </p>
+                <p name="description" style="display: none;">${description}</p>
                 ${tagButtons}
             </figcaption>
         `;
 
-        let minCol = cols[0]; // figure как элемент массива
-        let minHeight = cols[0].offsetHeight; 
+        // Выбираем самый низкий столбец
+        var minCol = Array.from(cols).reduce((min, col) => 
+            col.offsetHeight < min.offsetHeight ? col : min, cols[0]);
 
-        Array.from(cols).forEach(function (col) {
-            console.log(col.offsetHeight);
-
-            if (col.offsetHeight < minHeight) {
-                minHeight = col.offsetHeight;
-                minCol = col;
-            }
-        });
-        
-        minCol.insertAdjacentElement("beforeend", newItem);
-        closeForm(); // если все успешно, закрываем форму
+        minCol.appendChild(newItem);
+        closeForm(); // Закрываем форму
     };
 
     // Чтение изображения как DataURL
     reader.readAsDataURL(image);
 }
+
 
 // фильтраиця тестовая версия
 function filterPictureByTag(tempTag) {
