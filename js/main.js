@@ -1,130 +1,147 @@
-var colNum = 1;
-var tags = [] // list of all tags
-let uploadedImages = new Set();
+document.addEventListener('DOMContentLoaded', () => {
+    initGallery();
+    document.getElementById('addBtn').addEventListener('click', openModal);
+    document.querySelector('.close').addEventListener('click', closeModal);
+    document.getElementById('addForm').addEventListener('submit', handleSubmit);
+    new ResizeObserver(forceGridRefresh).observe(document.body);
+});
 
-function findAllTags() {
-    var allTags = document.getElementsByClassName("button-tag") // all objects who is button
-    
-    for (var i = 0; i < allTags.length; i++) {
-        
-        if (!tags.includes(allTags[i].innerText)) {
-            tags.push(allTags[i].innerText);
+let tags = new Set();
+
+function initGallery() {
+    const initialData = [
+        {
+            title: "Горы",
+            description: "Красивый горный пейзаж",
+            tags: ["природа", "горы"],
+            image: "https://picsum.photos/300/200?random=1"
+        },
+        {
+            title: "Город",
+            description: "Ночной город",
+            tags: ["город", "ночь"],
+            image: "https://picsum.photos/300/200?random=2"
         }
-    }
+    ];
+
+    initialData.forEach(item => addCardToGallery(item));
+    updateFilters();
 }
 
-function addNewTag(newTag) {
+function addCardToGallery(data) {
+    const gallery = document.getElementById('gallery');
+    const card = createCardElement(data);
+    gallery.appendChild(card);
+    data.tags.forEach(tag => tags.add(tag));
+}
+
+function createCardElement(data) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.tags = data.tags.join(',');
     
-    if (!(tags.includes(newTag)) && newTag.length > 0) {
-        tags.push(newTag);
-        const selects = document.getElementsByName("selectTag");
-        
-        selects.forEach(function (select){
-            let option = document.createElement("option");
-            option.textContent = newTag;
-            select.appendChild(option);
+    card.innerHTML = `
+        <img src="${data.image}" alt="${data.title}">
+        <div class="card-body">
+            <h3>${data.title}</h3>
+            <p>${data.description}</p>
+            <div class="card-tags">
+                ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+function updateFilters() {
+    const container = document.getElementById('tagsContainer');
+    container.innerHTML = '';
+    
+    tags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.textContent = tag;
+        btn.dataset.filter = tag;
+        btn.addEventListener('click', filterHandler);
+        container.appendChild(btn);
+    });
+}
+
+function filterHandler(e) {
+    const filter = e.target.dataset.filter;
+    
+    // Сбрасываем активное состояние всех кнопок
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Устанавливаем активное состояние для выбранной кнопки
+    e.target.classList.add('active');
+
+    // Обновляем отображение карточек
+    document.querySelectorAll('.card').forEach(card => {
+        const cardTags = card.dataset.tags.split(',');
+        const shouldShow = filter === 'all' || cardTags.includes(filter);
+        card.style.display = shouldShow ? 'block' : 'none';
+    });
+
+    // Пересчитываем сетку
+    forceGridRefresh();
+}
+
+function forceGridRefresh() {
+    const gallery = document.getElementById('gallery');
+    const temp = gallery.style.display;
+    gallery.style.display = 'none';
+    gallery.offsetHeight; // Триггер рефлоу
+    gallery.style.display = temp;
+}
+
+function openModal() {
+    document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('show');
+}
+
+async function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('addForm'); // Получаем ссылку на форму
+    const imageFile = document.getElementById('image').files[0];
+    const title = document.getElementById('title').value;
+    const desc = document.getElementById('desc').value;
+    const tagsInput = document.getElementById('tags').value.split(',').map(t => t.trim());
+
+    if (!imageFile || !title || !desc || tagsInput.length === 0) {
+        alert('Заполните все поля!');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        addCardToGallery({
+            title: title,
+            description: desc,
+            tags: tagsInput,
+            image: e.target.result
         });
-
-        var ul = document.querySelector("nav ul");
-        var li = document.createElement("li");
-        li.innerHTML = `
-            <button class="button-tag" id="tag${tags.length}" name="tag">
-                <a href="#" onclick = filterPictureByTag('${newTag}')>${newTag}</a>
-            </button>`;
-        ul.appendChild(li);
-    }
-}
-
-
-function addElement(imageInput, description, tag1 = "None", tag2 = "None", tag3 = "None") {
-    var cols = document.querySelectorAll(".columns"); // Получаем все столбцы
-    var newItem = document.createElement("figure");
-    let tagButtons = "";
-
-    // Получаем файл из input
-    var image = imageInput.files[0]; // Берем первый файл
-                
-    if (!image) {
-        alert("Please select a file.");
-        return;
-    }
-    
-    // Фильтруем теги, оставляя только уникальные и не "None"
-    let uniqueTags = [...new Set([tag1, tag2, tag3].filter(tag => tag !== "None"))];
-
-    if (uniqueTags.length === 0) {
-        alert("Choose at least one tag!");
-        return;
-    }
-
-    // Создаем кнопки для тегов
-    uniqueTags.forEach(tag => {
-        tagButtons += `
-            <button class="button-tag" name="tag">
-                <a href="#" onclick="filterPictureByTag('${tag}')">${tag}</a>
-            </button>`;
-    });
-
-    var reader = new FileReader();
-    
-    reader.onload = function(e) {
-        const imageURL = e.target.result; // Получаем результат чтения файла
-        
-        if (uploadedImages.has(imageURL)) {
-            alert("This image has already been uploaded!");
-            return;
-        }
-
-        uploadedImages.add(imageURL);
-
-        newItem.innerHTML = `
-            <a class="image"><img src="${imageURL}" alt="Uploaded Image"/></a>
-            <figcaption>
-                <p name="description" style="display: none;">${description}</p>
-                ${tagButtons}
-            </figcaption>
-        `;
-
-        // Выбираем самый низкий столбец
-        var minCol = Array.from(cols).reduce((min, col) => 
-            col.offsetHeight < min.offsetHeight ? col : min, cols[0]);
-
-        minCol.appendChild(newItem);
-        closeForm(); // Закрываем форму
+        document.getElementById('modal').style.display = 'none';
+        e.target.reset();
     };
-
-    // Чтение изображения как DataURL
-    reader.readAsDataURL(image);
+    reader.readAsDataURL(imageFile);
 }
 
+function validateForm(data) {
+    return data.image && data.title && data.description && data.tags.length > 0;
+}
 
-// фильтраиця тестовая версия
-function filterPictureByTag(tempTag) {
-    const pictures = Array.from(document.getElementsByTagName("figure"));
-    
-    pictures.forEach((picture) => {
-        const btnTags = Array.from(picture.getElementsByTagName("button"));
-        const hasTag = btnTags.some(btnTag => btnTag.innerText.trim() === tempTag);
-        picture.style.display = hasTag ? "block" : "none";
+function readFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
     });
-}
-
-function showAllPictures() {
-    const pictures = Array.from(document.getElementsByTagName("figure"));
-    pictures.forEach((picture) => {
-        picture.style.display = "block";
-    });
-}
-
-// вспомогательные функции
-function openForm() {
-    const form = document.querySelector("form");
-    form.style.display = "block";
-    form.reset();
-}
-
-function closeForm() {
-const form = document.getElementById("Adding form");
-form.style.display = "none";
-    form.reset();
 }
