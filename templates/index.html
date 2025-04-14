@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <title>Фотогалерея</title>
 </head>
 <body>
   <header>
-    <h1>Фотогалерея</h1>
+    <h1>Исследуйте удивительный мир фото!</h1>
   </header>
 
   <nav>
@@ -32,19 +35,22 @@
           <h2>Добавить новое фото</h2>
         </div>
         <div class="addFromItem">
-          <input type="file" id="image" required>
+          <label class="custom-file-upload" id="imageLabel">
+            <input type="file" id="image" required>
+            <p id="imageLabelText">Добавить изображение</p>
+          </label>
         </div>
         <div class="addFromItem">
           <input type="text" id="title" placeholder="Название" required>
         </div>
         <div class="addFromItem">
-          <textarea id="desc" placeholder="Описание" required></textarea>
+          <textarea rows="5" cols="30" id="desc" placeholder="Описание" required></textarea>
         </div>
         <div class="addFromItem">
           <input type="text" id="tags" placeholder="Теги (через запятую)" required>
         </div>
         <div class="addFromItem">
-          <button type="submit">Добавить</button>
+          <button type="submit">Добавить карточку</button>
         </div>
       </form>
     </div>

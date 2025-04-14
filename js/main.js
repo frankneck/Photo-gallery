@@ -114,17 +114,40 @@ function renderVisibleTags() {
 function filterHandler(e) {
   const filter = e.target.dataset.filter;
   debug('Выбран фильтр:', filter);
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-  e.target.classList.add('active');
-  let visibleCount = 0;
-  document.querySelectorAll('.card').forEach(card => {
-    const cardTags = card.dataset.tags.split(',');
-    const shouldShow = filter === 'all' || cardTags.includes(filter);
-    card.classList.toggle('hidden', !shouldShow);
-    if (shouldShow) visibleCount++;
+  
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
   });
-  debug(`Показано карточек: ${visibleCount} из ${document.querySelectorAll('.card').length}`);
-  forceGridRefresh();
+  e.target.classList.add('active');
+
+  // Добавляем временный класс для анимации
+  document.querySelectorAll('.card').forEach(card => {
+    card.classList.add('transitioning');
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.card').forEach(card => {
+      const cardTags = card.dataset.tags.split(',');
+      const shouldShow = filter === 'all' || cardTags.includes(filter);
+  
+      if (!shouldShow) {
+        card.classList.add('hidden');
+      } else {
+        card.classList.remove('hidden');
+      }
+    });
+  }, 50); // Задержка 50 мс
+
+  // Обновляем сетку после анимации
+  setTimeout(() => forceGridRefresh(), 400);
+  
+  // Удаляем временный класс
+  setTimeout(() => {
+    document.querySelectorAll('.card').forEach(card => {
+      card.offsetHeight; // Принудительная перерисовка
+      card.classList.remove('transitioning');
+    });
+  }, 400);
 }
 
 // Обновление сетки галереи (принудительное перерисовывание)
@@ -132,8 +155,9 @@ function forceGridRefresh() {
   const gallery = document.getElementById('gallery');
   debug('Перерисовка галереи');
   gallery.style.display = 'none';
-  gallery.offsetHeight; // перезагрузка layout
-  gallery.style.display = 'grid';
+  requestAnimationFrame(() => {
+    gallery.style.display = 'grid';
+  });
 }
 
 function openModal() {
@@ -142,6 +166,8 @@ function openModal() {
 }
 
 function closeModal() {
+  labelText.textContent = 'Добавить изображение'; // Восстановить исходный текст
+  label.classList.remove('selected'); // Убрать класс, который меняет стиль
   document.getElementById('modal').classList.remove('show');
   debug('Закрыто модальное окно');
 }
@@ -228,4 +254,19 @@ function updateScrollButtons() {
 window.addEventListener('resize', () => {
   updateFilters(false);
   setupScroll();
+});
+
+
+const input = document.getElementById('image');
+const label = document.getElementById('imageLabel');
+const labelText = document.getElementById('imageLabelText');
+
+input.addEventListener('change', () => {
+  if (input.files.length > 0) {
+    labelText.textContent = 'Выбран файл: ' + input.files[0].name;
+    label.classList.add('selected');
+  } else {
+    labelText.textContent = 'Добавить изображение';
+    label.classList.remove('selected');
+  }
 });
